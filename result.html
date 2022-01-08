@@ -10,13 +10,14 @@
 
     <br>
 
-    <label for="input">Input Text:</label> 
-    <input type="text" id="input" name="input">
+    <label for="input">Input Text:</label><br>
+    <textarea id="input" name="input" rows="3" cols="50"></textarea><br>
     <input type="submit" value="Convert"><br>
 
     <br>
+    <label for="output">Output:</label><br>
     <textarea readonly id="output" name="output" rows="12" cols="50">
-    {{output}}
+    {{.Output}}
     </textarea>
    
     <br/>
