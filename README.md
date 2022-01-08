@@ -5,10 +5,14 @@ Description: This is basic web application made using golang and html that allow
 Authors: Abdul Raheem Khan and Jason Asante-Twumasi
 
 Usage: how to run
-Git clone the ascii-art-web repository
-In your terminal, run "go run main.go" in the ascii-art-web repository
-Now open a browser and enter "localhost:8080" into the URL
-Then select your prefered banner, enter you text into the input box then press the convert button
-An GUI of ur input text should appear in an output box.
+1.Git clone the ascii-art-web repository
+
+2.In your terminal, run "go run main.go" in the ascii-art-web repository
+
+3.Now open a browser and enter "localhost:8080" into the URL
+
+4.Then select your prefered banner, enter you text into the input box then press the convert button
+
+5.An GUI of ur input text should appear in an output box.
 
 Implementation details: algorithm
