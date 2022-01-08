@@ -5,6 +5,7 @@ Description: This is basic web application made using golang and html that allow
 Authors: Abdul Raheem Khan and Jason Asante-Twumasi
 
 Usage: how to run
+
 1.Git clone the ascii-art-web repository
 
 2.In your terminal, run "go run main.go" in the ascii-art-web repository
