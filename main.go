@@ -1,45 +1,28 @@
 package main
 
-// This simply declares what package this code is a part of. In our case, we are declaring it
-// as part of the main package because we intend to have our application start by
-// running the main() function in this file.
-
 import (
 	"fmt"
-	"net/http"
-
-	//This package is used to both create
-	//an application capable of responding to web requests, as well as making web
-	//requests to other servers.
 	"html/template"
+	"net/http"
 	"os"
 	"strings"
 )
-
-// this function processes incoming web requests.
-// Everytime someone visits the website, the code in this function gets run and determines
-//what is returned to the viewer (there are other handlers too).
-//all handlers have the same two elements
-// 1) http.ResponseWriter
-// allows us to modify the response that we want to send to whoever visited our website.
-
-// 2)the pointer: *http.Request
-// this  accesses data from the web request. For example, we might use this to get the users email address and
-//password after they sign up for our web application.
 type Text struct {
 	Input  string
 	Output string
 }
 
+// this handles the homepage
 func homePage(w http.ResponseWriter, r *http.Request) {
-	//if the handle is not / then it will return an error message
+	// if the handle is not / then it will return an error message
+	//also the w.WriteHeader posts the status of the page on the network section when inspecting the page
 	if r.URL.Path != "/" {
 		w.WriteHeader(http.StatusNotFound)
 		fmt.Fprint(w, "<h1>HTTP Status 404: Page Not Found</h1>")
 		return
 	}
-	//t is the template file. ParseFiles opens up the template file and attempt to validate it.
-	//If everything is correct there will be a nil error and a *template
+	// t is the template file. ParseFiles opens up the template file and attempt to validate it.
+	// If everything is correct there will be a nil error and a *template
 	t, err := template.ParseFiles("template.html")
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -47,11 +30,12 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "<p>No banner Selected</p>")
 		return
 	}
-	//t.Executes runs the data input (in this case Text{}) throught the template
+	// t.Executes runs the data input (in this case Text{}) throught the template
 	// which is then displayed on website via ResponseWriter
-	err = t.Execute(w, Text{})
+	t.Execute(w, Text{})
 }
 
+// this handles the ascii-art output page
 func asciiPage(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/ascii-art" {
 		w.WriteHeader(http.StatusNotFound)
@@ -88,8 +72,7 @@ func asciiPage(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "<p>No banner file found</p>")
 		return
 	}
-	var output string
-	output = asciiArt(input, banner)
+	output := asciiArt(input, banner)
 	p := Text{Input: input, Output: output}
 	t, err := template.ParseFiles("result.html")
 	if err != nil {
@@ -99,9 +82,10 @@ func asciiPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	t.Execute(w, p)
-	//t.Execute(w, Text{input, output}) this is another way of executing
+	// t.Execute(w, Text{input, output}) this is another way of executing
 }
 
+// this handles the conversion from the a string to a GUI
 func asciiArt(s string, b string) string {
 	var emptyString string
 	var inputString []string
@@ -146,17 +130,17 @@ func asciiArt(s string, b string) string {
 	return outputStr
 }
 
+// this opens the server
 func main() {
 	fmt.Println("Starting Server at Port 8080")
 	fmt.Println("now open a broswer and enter: localhost:8080 into the URL")
-	//this handles the web request to the server with the path /
-	//so it covers all paths that the user may visit on the website and it would be processed by handlerFunc
-	//for example: t http://localhost:3000/some-other-path
 	http.HandleFunc("/", homePage)
+	// this handles the web request to the server with the path /
+	// so it covers all paths that the user may visit on the website and it would be processed by handlerFunc
+	// for example: t http://localhost:3000/some-other-path
 	http.HandleFunc("/ascii-art", asciiPage)
 	// starts up a web server listening on port 8080 using the default http handlers
 	// so when we run the file, we open a browser and type: "http://localhost:8080/"
 	// which is saying 'try to load a web page from this computer at port 8080'
 	http.ListenAndServe(":8080", nil)
-
 }
