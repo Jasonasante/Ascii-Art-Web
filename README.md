@@ -14,6 +14,6 @@ Usage: how to run
 
 4.Then select your prefered banner, enter you text into the input box then press the convert button
 
-5.An GUI of ur input text should appear in an output box.
+5.A GUI of ur input text should appear in an output box.
 
 Implementation details: algorithm
