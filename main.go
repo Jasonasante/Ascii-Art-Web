@@ -23,7 +23,7 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 	}
 	// t is the template file. ParseFiles opens up the template file and attempt to validate it.
 	// If everything is correct there will be a nil error and a *template
-	t, err := template.ParseFiles("template.html")
+	t, err := template.ParseFiles("templates/homepage.html")
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Fprint(w, "<h1>HTTP Status 500: Internal Server Error(</h1>")
@@ -65,7 +65,7 @@ func asciiPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	banner := r.Form["banner"][0]
-	_, err := os.ReadFile(banner + ".txt")
+	_, err := os.ReadFile("banners/"+ banner + ".txt")
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Fprint(w, "<h1>HTTP Status 500: Internal Server Error(</h1>")
@@ -74,7 +74,7 @@ func asciiPage(w http.ResponseWriter, r *http.Request) {
 	}
 	output := asciiArt(input, banner)
 	p := Text{Input: input, Output: output}
-	t, err := template.ParseFiles("result.html")
+	t, err := template.ParseFiles("templates/result.html")
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Fprint(w, "<h1>HTTP Status 500: Internal Server Error</h1>")
@@ -89,7 +89,7 @@ func asciiPage(w http.ResponseWriter, r *http.Request) {
 func asciiArt(s string, b string) string {
 	var emptyString string
 	var inputString []string
-	Content, _ := os.ReadFile(b + ".txt")
+	Content, _ := os.ReadFile("banners/"+b + ".txt")
 	asciiSlice2 := make([][]string, 95)
 	s = strings.Replace(s, "\r\n", "\\n", -1)
 	inputString = strings.Split(s, "\\n")
